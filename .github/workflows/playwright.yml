@@ -39,6 +39,19 @@ jobs:
         env:
           NODE_ENV: development
 
+      - name: Start API server
+        run: npm run dev &
+        working-directory: ./apps/api
+        env:
+          NODE_ENV: development
+
+      - name: Start Web server
+        run: npm run dev &
+        working-directory: ./apps/web
+
+      - name: Wait for servers to be ready
+        run: npx wait-on tcp:3333 tcp:8080 --timeout 30000
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 

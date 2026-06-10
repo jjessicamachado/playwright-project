@@ -82,13 +82,13 @@ export default defineConfig({
       command: 'npm run dev',
       url: 'http://localhost:8080',
       cwd: './apps/web',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
     },
     {
       command: 'npm run dev',
-      url: 'http://localhost:3333',
+      url: 'http://localhost:3333/tasks',
       cwd: './apps/api',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
     },
   ],
 });
