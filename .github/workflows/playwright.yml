@@ -5,11 +5,14 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
-    
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: http://localhost:8080
+      BASE_API: http://localhost:3333
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -21,6 +24,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Install API dependencies
+        run: npm install
+        working-directory: ./apps/api
+
+      - name: Install Web dependencies
+        run: npm install
+        working-directory: ./apps/web
+
+      - name: Run database migrations
+        run: npm run db:init
+        working-directory: ./apps/api
+        env:
+          NODE_ENV: development
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
